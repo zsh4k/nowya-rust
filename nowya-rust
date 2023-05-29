@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#Descarga ;)
+curl -s https://forge.rust-lang.org/infra/other-installation-methods.html | 
+grep -oP '"([^"]*\.tar\.gz)"[^>]*' | 
+sed 's/"//g' | 
+tail -n 3 | 
+head -n 1 | 
+xargs wget
+
+#Descomprime
+tar -xf rust*.tar.gz
+cd rust*/
+./configure --prefix=/usr/local
+
+#Compila e Instala
+make install
+cd ..
+rm -rf rust*.tar.gz rust*/ 
+rustc --version
+
+#Desinstalar
+#/usr/local/lib/rustlib/./uninstall.sh
